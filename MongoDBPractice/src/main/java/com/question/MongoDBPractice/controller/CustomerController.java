@@ -43,13 +43,14 @@ public class CustomerController {
         return responseEntity;
     }
     @GetMapping(value = "/customer/{productName}")
-    public ResponseEntity<?> getAllCustomersByProductName(@PathVariable String productName){
+    public ResponseEntity<?> getAllCustomersByProductName(@PathVariable String productName) throws CustomerNotFoundException{
         ResponseEntity responseEntity=null;
         try{
-            responseEntity=new ResponseEntity(customerService.getAllCustomersByProductName(productName),HttpStatus.FOUND);
+            responseEntity=new ResponseEntity(customerService.getAllCustomersByProductName(productName),HttpStatus.OK);
 
         } catch (CustomerNotFoundException e) {
-            responseEntity=new ResponseEntity(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            //responseEntity=new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+            throw new CustomerNotFoundException();
         }
         return responseEntity;
     }
